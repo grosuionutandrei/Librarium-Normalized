@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Librarium.Data.infrastructure.repositories.dto;
+namespace Librarium.Data.repositories.entities;
 public class BookDto
 {
     [Key]
@@ -14,4 +14,5 @@ public class BookDto
     public string Isbn { get; init; }
     [NotNull]
     public int PublicationYear { get; init; }
+    public ICollection<AuthorDto> Authors { get; set; }
 }

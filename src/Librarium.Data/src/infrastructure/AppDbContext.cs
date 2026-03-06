@@ -1,7 +1,7 @@
 ﻿using Librarium.Data.repositories.entities;
 using Microsoft.EntityFrameworkCore;
-using BookDto = Librarium.Data.infrastructure.repositories.dto.BookDto;
-using MemberDto = Librarium.Data.infrastructure.repositories.dto.MemberDto;
+using BookDto = Librarium.Data.repositories.entities.BookDto;
+using MemberDto = Librarium.Data.repositories.entities.MemberDto;
 
 namespace Librarium.Data.infrastructure;
 
@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<BookDto> Books { get; set; }
     public DbSet<MemberDto> Members { get; set; }
     public DbSet<LoanEntity> Loans { get; set; }
+    public DbSet<AuthorDto> Authors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -40,6 +41,23 @@ public class AppDbContext : DbContext
             entity.Property(e => e.LastName).HasMaxLength(100).IsRequired();
             entity.ToTable("Members");
         });
+        
+        modelBuilder.Entity<AuthorDto>(entity =>
+        {
+            entity.HasKey(e => e.AuthorId);
+            entity.Property(e => e.AuthorId).IsRequired();
+            entity.Property(e => e.FirstName).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.LastName).HasMaxLength(100).IsRequired();
+            entity.Property(e => e.Biography).HasMaxLength(2000).IsRequired(false);
+            entity.ToTable("Authors");
+        });
+
+        modelBuilder.Entity<BookDto>()
+            .HasMany(b => b.Authors)
+            .WithMany(a => a.BooksDto)
+            .UsingEntity(j => j.ToTable("BookAuthors"));
+    
+        
 
         modelBuilder.Entity<LoanEntity>(entity =>
         {

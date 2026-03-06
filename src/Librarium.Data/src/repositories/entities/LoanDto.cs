@@ -1,6 +1,4 @@
-﻿using Librarium.Data.infrastructure.repositories.dto;
-
-namespace Librarium.Data.repositories.entities;
+﻿namespace Librarium.Data.repositories.entities;
 
 public class LoanEntity
 {

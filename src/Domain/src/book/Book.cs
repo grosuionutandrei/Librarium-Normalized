@@ -1,5 +1,6 @@
 ﻿
 
+using Domain.author;
 using Error_definitions;
 
 namespace Domain.book;
@@ -10,9 +11,11 @@ public class Book
     public InternationalStandardBookNumber Isbn { get; }
     public BookTitle Title { get; }
     public PublicationYear PublicationYear { get; }
+    private readonly List<Author> _authors = new();
+    public IReadOnlyList<Author> Authors => _authors.AsReadOnly();
 
 
-    public Book(BookId bookId ,InternationalStandardBookNumber isbn, BookTitle title, PublicationYear publicationYear)
+    public Book(BookId bookId ,InternationalStandardBookNumber isbn, BookTitle title, PublicationYear publicationYear,List<Author> authors)
     {
         if (isbn == null)
             throw new BookInvalid("ISBN cannot be null.");
@@ -24,9 +27,26 @@ public class Book
         Title = title;
         PublicationYear = publicationYear;
         BookId = bookId;
+        _authors.AddRange(authors);
     }
     
-    
+    public void AddAuthor(Author author)
+    {
+        if (author == null)
+            throw new BookInvalid("Author cannot be null.");
+        if (_authors.Any(a => a.Id == author.Id))
+            throw new BookInvalid("Author is already associated with this book.");
+
+        _authors.Add(author);
+    }
+
+    public void RemoveAuthor(Author author)
+    {
+        if (author == null)
+            throw new BookInvalid("Author cannot be null.");
+
+        _authors.Remove(author);
+    }
   
     
 

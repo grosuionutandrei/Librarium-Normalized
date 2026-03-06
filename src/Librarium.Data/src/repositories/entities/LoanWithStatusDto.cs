@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-
-namespace Librarium.Data.infrastructure.repositories.dto;
+namespace Librarium.Data.repositories.entities;
 
 public class LoanWithStatusDto
 {
