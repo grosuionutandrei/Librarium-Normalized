@@ -28,19 +28,19 @@
       timeout: 5s
       retries: 5
       start_period: 20s
-
   flyway:
     image: flyway/flyway:10
     command: migrate
     volumes:
       - ./migrations/sql:/flyway/sql
     environment:
-      FLYWAY_URL: ${FLYWAY_URL}
+      FLYWAY_URL: "jdbc:sqlserver://librarium-db:1433;trustServerCertificate=true"
       FLYWAY_USER: ${FLYWAY_USER}
       FLYWAY_PASSWORD: ${FLYWAY_PASSWORD}
     depends_on:
       librarium-db:
         condition: service_healthy
+
 
 volumes:
   librarium-db-data:
